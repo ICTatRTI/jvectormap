@@ -2,7 +2,8 @@ This is an official git repository for the jVectorMap plug-in for jQuery. Its ma
 
 You can find maps, documentation, examples and more at [the official site](http://jvectormap.com/)
 
-== Dependencies
+Dependencies
+-------------
 
 One way, which I believe to be the best way, to get this running on a Mac is the following:
 
@@ -13,7 +14,8 @@ One way, which I believe to be the best way, to get this running on a Mac is the
 
 * Note: Make sure are using the right Python.  Running 'brew doctor' will help you out. 
 
-== Converter
+Converter
+--------------
 It also includes a converter that could be used to create your own maps for jVectorMap from the data in various GIS formats like Shapefile. The following command could be used to convert USA map from the data available at [www.naturalearthdata.com](http://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/):
 
       python \
