@@ -9,7 +9,7 @@ import argparse
 import sys
 from osgeo import ogr
 from osgeo import osr
-import json
+import anyjson
 import shapely.geometry
 import codecs
 
@@ -27,7 +27,7 @@ class Map:
 
   def getJSCode(self):
     map = {"paths": self.paths, "width": self.width, "height": self.height, "insets": self.insets, "projection": self.projection}
-    return "jQuery.fn.vectorMap('addMap', '"+self.name+"_"+self.projection['type']+"_"+self.language+"',"+json.dumps(map)+');'
+    return "jQuery.fn.vectorMap('addMap', '"+self.name+"_"+self.projection['type']+"_"+self.language+"',"+anyjson.serialize(map)+');'
 
 
 class Converter:
@@ -126,7 +126,7 @@ class Converter:
 
       if geometryType == ogr.wkbPolygon or geometryType == ogr.wkbMultiPolygon:
         geometry.TransformTo( self.spatialRef )
-        shapelyGeometry = shapely.wkb.loads( geometry.ExportToWkb() )
+        shapelyGeometry = shapely.geometry.base.geom_from_wkb( geometry.ExportToWkb() ) 
         if not shapelyGeometry.is_valid:
           #buffer to fix selfcrosses
           shapelyGeometry = shapelyGeometry.buffer(0, 1)
@@ -285,7 +285,7 @@ default_args = {
 }
 
 if args['input_file'][-4:] == 'json':
-  args.update( json.loads( open(args['input_file'], 'r').read() ) )
+  args.update( anyjson.loads( open(args['input_file'], 'r').read() ) )
 
 for key in default_args:
   if default_args.get(key) and args.get(key) is None:
